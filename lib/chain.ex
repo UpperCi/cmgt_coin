@@ -64,7 +64,8 @@ defmodule Chain do
          Integer.to_string(new_amount) <>
          Integer.to_string(new_tr_timestamp) <> Integer.to_string(new_timestamp))
 
-    nonce = find_nonce(base, 0) |> IO.puts
+    nonce = find_nonce(base, 0)
+    IO.puts(nonce)
 
     Api.chain_block(user, nonce)
   end

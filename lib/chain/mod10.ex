@@ -57,7 +57,6 @@ defmodule Chain.Mod10 do
     data
     |> split_data
     |> digits_to_blocks
-    # |> IO.inspect()
     |> sum_blocks
     |> hash_block
   end

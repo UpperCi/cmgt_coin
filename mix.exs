@@ -7,7 +7,8 @@ defmodule Chain.MixProject do
       version: "0.1.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      escript: escript_config(),
     ]
   end
 
@@ -23,6 +24,12 @@ defmodule Chain.MixProject do
     [
       {:jason, "~> 1.4"},
       {:httpoison, "~> 2.0"}
+    ]
+  end
+
+  defp escript_config do
+    [
+      main_module: Chain.CLI
     ]
   end
 end
