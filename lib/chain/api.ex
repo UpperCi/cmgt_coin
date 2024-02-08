@@ -4,17 +4,13 @@ defmodule Chain.Api do
   """
 
   def get_blockchain() do
-    {:ok, body} =
-      HTTPoison.get("https://programmeren9.cmgt.hr.nl:8000/api/blockchain", []
-      )
+    {:ok, body} = HTTPoison.get("https://programmeren9.cmgt.hr.nl:8000/api/blockchain", [])
 
     Map.get(body, :body) |> Jason.decode!()
   end
 
   def get_next() do
-    {:ok, body} =
-      HTTPoison.get("https://programmeren9.cmgt.hr.nl:8000/api/blockchain/next", []
-      )
+    {:ok, body} = HTTPoison.get("https://programmeren9.cmgt.hr.nl:8000/api/blockchain/next", [])
 
     case Map.get(body, :body) |> Jason.decode!() do
       %{"open" => false} = data -> {:wait, data}

@@ -8,7 +8,7 @@ defmodule Chain.MixProject do
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      escript: escript_config(),
+      escript: escript_config()
     ]
   end
 
