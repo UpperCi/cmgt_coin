@@ -31,8 +31,22 @@ defmodule Chain do
     end
   end
 
-  def mine_coin(user) do
-    %{
+  def mine(user, {:ok, %{"countdown" => time} = data}) do
+    task = Task.async(fn -> mine_coin(user, data) end)
+    Task.await(task, time)
+    mine(user)
+  end
+
+  def mine(user, {:wait, %{"countdown" => time} = _data}) do
+    :timer.sleep(time)
+    mine(user)
+  end
+
+  def mine(user) do
+    mine(user, Api.get_next())
+  end
+
+  def mine_coin(user, %{
       "blockchain" => %{
         "hash" => hash,
         "nonce" => nonce,
@@ -45,8 +59,7 @@ defmodule Chain do
           "from" => new_from, "to" => new_to, "amount" => new_amount, "timestamp" => new_tr_timestamp
         }
       ]
-    } = Api.get_next()
-
+    } = _next) do
     [%{"from" => tr_from, "to" => tr_to, "amount" => tr_amount, "timestamp" => tr_timestamp}] =
       data
 
@@ -65,8 +78,7 @@ defmodule Chain do
          Integer.to_string(new_tr_timestamp) <> Integer.to_string(new_timestamp))
 
     nonce = find_nonce(base, 0)
-    IO.puts(nonce)
 
-    Api.chain_block(user, nonce)
+    Api.chain_block(user, nonce) |> IO.inspect()
   end
 end

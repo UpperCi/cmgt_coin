@@ -6,6 +6,7 @@ defmodule Chain.CLI do
   end
 
   def handle_args("mine " <> user) do
+    Chain.mine(user)
     IO.puts(user)
   end
 

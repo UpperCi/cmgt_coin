@@ -31,6 +31,7 @@ defmodule Chain.Mod10 do
     [Enum.take(digits ++ padding, 10) | digits_to_blocks(Enum.drop(digits, 10))]
   end
 
+  # Stap 4
   def add_blocks([], []) do
     []
   end
@@ -39,6 +40,7 @@ defmodule Chain.Mod10 do
     [rem(a + b, 10) | add_blocks(left, right)]
   end
 
+  # Stap 5, 6
   def sum_blocks([sum]) do
     sum
   end
