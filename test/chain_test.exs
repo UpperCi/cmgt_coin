@@ -5,8 +5,4 @@ defmodule ChainTest do
   test "greets the world" do
     assert Chain.hello() == :world
   end
-
-  test "sums numbers" do
-    assert Chain.add(5, 10) == 15
-  end
 end

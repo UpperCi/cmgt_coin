@@ -7,11 +7,13 @@ defmodule Mod10Test do
     assert [1, 1, 6, 1, 0, 1, 1, 2, 0, 1, 1, 6] = Mod10.split_data("text")
   end
 
+  # stap 4
   test "split data into blocks of 10, pad remaining digits" do
     assert [[1, 1, 6, 1, 0, 1, 1, 2, 0, 1], [1, 6, 0, 1, 2, 3, 4, 5, 6, 7]] =
              Mod10.split_data("text") |> Mod10.digits_to_blocks()
   end
 
+  # stap 5, 6
   test "cross-sum digits, modulating all by 10" do
     assert [2, 7, 6, 2, 2, 4, 5, 7, 6, 8] =
              Mod10.split_data("text") |> Mod10.digits_to_blocks() |> Mod10.sum_blocks()

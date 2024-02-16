@@ -26,3 +26,5 @@ chain-*.tar
 /tmp/
 
 /chain
+
+CMGT_README.md

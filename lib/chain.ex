@@ -19,10 +19,6 @@ defmodule Chain do
     :world
   end
 
-  def add(a, b) do
-    a + b
-  end
-
   def find_nonce(base, current) do
     hash = (base <> Integer.to_string(current)) |> Mod10.hash()
 
@@ -47,6 +43,21 @@ defmodule Chain do
     mine(user, Api.get_next())
   end
 
+  defp mash_data(data) do
+    data
+    |> Enum.map(fn raw_data ->
+      %{
+        "from" => from,
+        "to" => to,
+        "amount" => amount,
+        "timestamp" => timestamp
+      } = raw_data
+
+      from <> to <> Integer.to_string(amount) <> Integer.to_string(timestamp)
+    end)
+    |> Enum.join()
+  end
+
   def mine_coin(
         user,
         %{
@@ -57,34 +68,20 @@ defmodule Chain do
             "data" => data
           },
           "timestamp" => new_timestamp,
-          "transactions" => [
-            %{
-              "from" => new_from,
-              "to" => new_to,
-              "amount" => new_amount,
-              "timestamp" => new_tr_timestamp
-            }
-          ]
+          "transactions" => transactions
         } = _next
       ) do
-    [%{"from" => tr_from, "to" => tr_to, "amount" => tr_amount, "timestamp" => tr_timestamp}] =
-      data
-
     new_hash =
       (hash <>
-         tr_from <>
-         tr_to <>
-         Integer.to_string(tr_amount) <>
-         Integer.to_string(tr_timestamp) <> Integer.to_string(timestamp) <> nonce)
+         mash_data(data) <>
+         Integer.to_string(timestamp) <> nonce)
       |> IO.inspect()
       |> Mod10.hash()
 
     base =
       new_hash <>
-        new_from <>
-        new_to <>
-        Integer.to_string(new_amount) <>
-        Integer.to_string(new_tr_timestamp) <> Integer.to_string(new_timestamp)
+        mash_data(transactions) <>
+        Integer.to_string(new_timestamp)
 
     nonce = find_nonce(base, 0)
 
